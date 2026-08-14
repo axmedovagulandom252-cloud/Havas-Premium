@@ -1,0 +1,702 @@
+:root {
+  --gold: #dca52d;
+  --gold2: #f1c65b;
+  --black: #070707;
+  --panel: #11100d;
+  --text: #f7f4ed;
+  --muted: #b8b2a6;
+  --line: rgba(220, 165, 45, 0.35);
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--text);
+  font-family: Inter, Arial, sans-serif;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.header {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 0 5%;
+  background: rgba(5, 5, 5, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 230px;
+  color: var(--gold);
+}
+.logo-mark {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 38px;
+  line-height: 1;
+}
+.logo b,
+.logo small {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  letter-spacing: 3px;
+}
+.logo b {
+  font-size: 23px;
+}
+.logo small {
+  font-size: 12px;
+  letter-spacing: 6px;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 27px;
+  flex: 1;
+}
+.nav a {
+  font-size: 13px;
+  color: #eee;
+  position: relative;
+  padding: 29px 0;
+}
+.nav a:hover,
+.nav a.active {
+  color: var(--gold2);
+}
+.nav a.active:after {
+  content: "";
+  position: absolute;
+  bottom: 17px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold);
+}
+button,
+.btn {
+  font: inherit;
+  cursor: pointer;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  padding: 13px 23px;
+  border: 1px solid var(--gold);
+  transition: 0.25s;
+}
+.btn-gold {
+  background: linear-gradient(135deg, #f1c65b, #c9901d);
+  color: #0b0b0b;
+  border: 0;
+  font-weight: 700;
+}
+.btn-gold:hover {
+  transform: translateY(-2px);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--gold2);
+}
+.btn-outline:hover {
+  background: rgba(220, 165, 45, 0.1);
+}
+.hamburger {
+  display: none;
+  background: none;
+  border: 0;
+  color: white;
+  font-size: 26px;
+}
+.hero {
+  min-height: 760px;
+  padding: 150px 5% 70px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  background-image: url("../assets/hero.png");
+  background-size: cover;
+  background-position: center;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.45) 60%,
+    rgba(0, 0, 0, 0.7)
+  );
+}
+.hero-content,
+.hero-features {
+  position: relative;
+  z-index: 1;
+}
+.hero-content {
+  max-width: 720px;
+}
+.eyebrow {
+  color: var(--gold2);
+  letter-spacing: 3px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.hero h1 {
+  font:
+    700 clamp(65px, 9vw, 125px/0.9) "Cormorant Garamond",
+    serif;
+  line-height: 0.75;
+  margin: 25px 0;
+  color: var(--gold2);
+  letter-spacing: 5px;
+}
+.hero h1 span {
+  font-size: 0.55em;
+  letter-spacing: 16px;
+}
+.hero-sub {
+  font-size: 22px;
+  line-height: 1.5;
+  color: #eee;
+}
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 30px;
+}
+.hero-features {
+  margin-left: auto;
+  width: 290px;
+  background: rgba(5, 5, 5, 0.78);
+  border: 1px solid rgba(220, 165, 45, 0.25);
+  border-radius: 14px;
+  padding: 10px 24px;
+}
+.hero-features div {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(220, 165, 45, 0.25);
+}
+.hero-features div:last-child {
+  border: 0;
+}
+.hero-features strong,
+.hero-features span {
+  display: block;
+}
+.hero-features strong {
+  color: var(--gold2);
+  font-size: 14px;
+}
+.hero-features span {
+  font-size: 12px;
+  color: #ddd;
+  margin-top: 4px;
+}
+.trustbar {
+  margin: -35px 5% 0;
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  background: rgba(12, 11, 9, 0.95);
+  border: 1px solid var(--gold);
+  border-radius: 40px;
+  padding: 18px 20px;
+}
+.trustbar div {
+  text-align: center;
+  font-size: 12px;
+  border-right: 1px solid rgba(220, 165, 45, 0.25);
+  padding: 0 10px;
+}
+.trustbar div:last-child {
+  border: 0;
+}
+.section {
+  padding: 95px 6%;
+  scroll-margin-top: 70px;
+}
+.dark-section {
+  background: #0c0b09;
+}
+.section-heading {
+  max-width: 760px;
+  margin: 0 auto 45px;
+}
+.section-heading.center {
+  text-align: center;
+}
+.section-heading h2,
+.split-card h2,
+.booking-card h2,
+.contact-grid h2 {
+  font:
+    600 clamp(38px, 5vw, 60px)/1 "Cormorant Garamond",
+    serif;
+  margin: 10px 0 16px;
+  color: #f4d27a;
+}
+.section-heading p:not(.eyebrow),
+.split-card p,
+.booking-card p,
+.contact-grid p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.about-card {
+  padding: 30px;
+  background: var(--panel);
+  border: 1px solid rgba(220, 165, 45, 0.18);
+  border-radius: 12px;
+}
+.about-card span {
+  color: var(--gold);
+  font:
+    700 24px "Cormorant Garamond",
+    serif;
+}
+.about-card h3 {
+  font:
+    22px "Cormorant Garamond",
+    serif;
+}
+.about-card p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+.hall-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.hall-card {
+  background: #10100e;
+  border: 1px solid rgba(220, 165, 45, 0.28);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.hall-img {
+  height: 210px;
+  background-size: cover;
+  background-position: center;
+}
+.img-1,
+.g1 {
+  background-image: url("../assets/hero.png");
+}
+.img-2 {
+  background-image:
+    linear-gradient(135deg, #393124, #12100c), url("../assets/hero.png");
+}
+.img-3 {
+  background-image:
+    linear-gradient(135deg, #28241c, #090909), url("../assets/hero.png");
+}
+.img-4 {
+  background-image:
+    linear-gradient(135deg, #4b3d27, #0c0c0c), url("../assets/hero.png");
+}
+.hall-body {
+  padding: 20px;
+}
+.hall-body h3 {
+  margin: 0 0 5px;
+  font:
+    24px "Cormorant Garamond",
+    serif;
+}
+.hall-body p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.text-btn {
+  margin-top: 16px;
+  background: none;
+  border: 0;
+  color: var(--gold2);
+  padding: 0;
+  font-weight: 600;
+}
+.split-card,
+.booking-card,
+.contact-grid {
+  max-width: 1200px;
+  margin: auto;
+  background: linear-gradient(135deg, #14120e, #0c0c0b);
+  border: 1px solid rgba(220, 165, 45, 0.25);
+  border-radius: 16px;
+  padding: 45px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 35px;
+  align-items: center;
+}
+.food-preview {
+  min-height: 230px;
+  border-radius: 12px;
+  background: radial-gradient(circle at center, #5a4524, #15120d 65%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.food-preview span {
+  font-size: 70px;
+}
+.food-preview strong {
+  font:
+    28px "Cormorant Garamond",
+    serif;
+  color: var(--gold2);
+}
+.food-preview small {
+  color: var(--muted);
+  margin-top: 8px;
+}
+.gallery-grid {
+  max-width: 1200px;
+  margin: 0 auto 28px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 220px 220px;
+  gap: 12px;
+}
+.gallery-item {
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(220, 165, 45, 0.2);
+}
+.g1 {
+  grid-row: span 2;
+}
+.g2 {
+  background-image: linear-gradient(120deg, #6b5530, #18130d);
+}
+.g3 {
+  background-image: linear-gradient(120deg, #241f18, #776039);
+}
+.g4 {
+  background-image: linear-gradient(120deg, #3c3325, #0b0b0b);
+}
+.center {
+  text-align: center;
+}
+.booking-card {
+  grid-template-columns: 1fr auto;
+}
+.contact-grid {
+  grid-template-columns: 1fr 1fr;
+}
+.contact-grid a {
+  color: var(--gold2);
+}
+.map-placeholder {
+  min-height: 280px;
+  border: 1px dashed rgba(220, 165, 45, 0.35);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: radial-gradient(circle, #2a2215, #0c0c0b);
+}
+.map-placeholder span {
+  font-size: 50px;
+}
+.map-placeholder strong {
+  font:
+    30px "Cormorant Garamond",
+    serif;
+}
+.map-placeholder small {
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+footer {
+  padding: 35px 6%;
+  border-top: 1px solid rgba(220, 165, 45, 0.18);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+.small-logo {
+  min-width: auto;
+}
+.modal {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(7px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal.open {
+  display: flex;
+}
+.modal-box {
+  width: min(560px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: #11100d;
+  border: 1px solid var(--gold);
+  border-radius: 16px;
+  padding: 35px;
+  position: relative;
+  box-shadow: 0 20px 80px #000;
+}
+.modal-box h2 {
+  font:
+    600 42px "Cormorant Garamond",
+    serif;
+  color: var(--gold2);
+  margin: 8px 0 24px;
+}
+.modal-close {
+  position: absolute;
+  right: 17px;
+  top: 12px;
+  background: none;
+  border: 0;
+  color: white;
+  font-size: 32px;
+}
+.modal form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.modal input,
+.modal select,
+.modal textarea {
+  width: 100%;
+  background: #090909;
+  color: white;
+  border: 1px solid #3b3323;
+  border-radius: 7px;
+  padding: 13px;
+  outline: none;
+}
+.modal textarea {
+  min-height: 100px;
+  grid-column: 1/-1;
+  resize: vertical;
+}
+.modal form .btn {
+  grid-column: 1/-1;
+}
+.form-note {
+  font-size: 11px;
+  color: #777;
+  margin-bottom: 0;
+}
+.toast {
+  position: fixed;
+  z-index: 70;
+  right: 20px;
+  bottom: 20px;
+  background: #18140d;
+  border: 1px solid var(--gold);
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  transform: translateY(120px);
+  opacity: 0;
+  transition: 0.3s;
+}
+.toast.show {
+  transform: none;
+  opacity: 1;
+}
+@media (max-width: 1050px) {
+  .nav {
+    gap: 15px;
+  }
+  .nav a {
+    font-size: 11px;
+  }
+  .logo {
+    min-width: 190px;
+  }
+  .hero {
+    min-height: 700px;
+  }
+  .trustbar {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+  .trustbar div:nth-child(3) {
+    border: 0;
+  }
+  .hall-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 780px) {
+  .header {
+    height: 68px;
+    padding: 0 5%;
+  }
+  .header-book {
+    display: none;
+  }
+  .logo {
+    min-width: auto;
+  }
+  .logo b {
+    font-size: 18px;
+  }
+  .logo small {
+    font-size: 9px;
+  }
+  .logo-mark {
+    font-size: 30px;
+  }
+  .hamburger {
+    display: block;
+    margin-left: auto;
+  }
+  .nav {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: #090909;
+    border-bottom: 1px solid var(--line);
+    padding: 10px 5%;
+  }
+  .nav.open {
+    display: flex;
+  }
+  .nav a {
+    padding: 14px;
+    width: 100%;
+  }
+  .nav a.active:after {
+    display: none;
+  }
+  .hero {
+    min-height: 900px;
+    padding: 130px 6% 50px;
+    display: block;
+  }
+  .hero-content {
+    padding-top: 30px;
+  }
+  .hero h1 {
+    font-size: 75px;
+  }
+  .hero h1 span {
+    letter-spacing: 8px;
+  }
+  .hero-sub {
+    font-size: 18px;
+  }
+  .hero-features {
+    width: 100%;
+    margin: 50px 0 0;
+  }
+  .hero-features div {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  .hero-features span {
+    margin: 0;
+    text-align: right;
+  }
+  .trustbar {
+    margin: -25px 4% 0;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 18px;
+  }
+  .trustbar div {
+    border: 0;
+    padding: 10px 5px;
+  }
+  .section {
+    padding: 70px 5%;
+  }
+  .about-grid,
+  .hall-grid {
+    grid-template-columns: 1fr;
+  }
+  .split-card,
+  .booking-card,
+  .contact-grid {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+  .booking-card .btn {
+    width: 100%;
+  }
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 180px 180px;
+  }
+  .gallery-item.g1 {
+    grid-row: span 2;
+  }
+  .modal form {
+    grid-template-columns: 1fr;
+  }
+  .modal textarea,
+  .modal form .btn {
+    grid-column: auto;
+  }
+  footer {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}
+
+.booking-extra {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.booking-extra > * {
+  min-width: 0;
+}
+@media (max-width: 780px) {
+  .booking-extra {
+    grid-template-columns: 1fr;
+  }
+}
