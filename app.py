@@ -1,15 +1,21 @@
 import os
+import uuid
 from datetime import datetime
+
 from flask import Flask, request, jsonify, send_from_directory
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__, static_folder="..", static_url_path="")
+app = Flask(__name__, static_folder=".", static_url_path="")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 CHAT_ID = os.getenv("CHAT_ID", "")
+PORT = int(os.getenv("PORT", "5000"))
+
+# Bronlar server xotirasida saqlanadi
+bookings = {}
 
 
 def send_telegram(text, buttons):
@@ -35,7 +41,7 @@ def send_telegram(text, buttons):
 
 @app.get("/")
 def home():
-    return send_from_directory("..", "index.html")
+    return send_from_directory(".", "index.html")
 
 
 @app.post("/api/booking")
@@ -57,6 +63,14 @@ def booking():
             "message": "Majburiy maydonlar to'ldirilmagan"
         }), 400
 
+    booking_id = str(uuid.uuid4())[:8].upper()
+
+    bookings[booking_id] = {
+        "status": "pending",
+        "created_at": datetime.now().strftime("%d.%m.%Y %H:%M"),
+        "data": d
+    }
+
     text = (
         "🔔 <b>YANGI BRON SO'ROVI</b>\n\n"
         f"👤 <b>Ism:</b> {d['name']}\n"
@@ -74,49 +88,90 @@ def booking():
     buttons = [[
         {
             "text": "✅ Tasdiqlash",
-            "callback_data": "approve_demo"
+            "callback_data": f"approve:{booking_id}"
         },
         {
             "text": "❌ Rad etish",
-            "callback_data": "reject_demo"
+            "callback_data": f"reject:{booking_id}"
         }
     ]]
 
     try:
         send_telegram(text, buttons)
     except Exception as e:
+        bookings.pop(booking_id, None)
+
         return jsonify({
             "message": str(e)
         }), 500
 
-    return jsonify({"ok": True})
+    return jsonify({
+        "ok": True,
+        "booking_id": booking_id,
+        "status": "pending"
+    })
 
 
+# Sayt shu endpoint orqali bron holatini tekshiradi
+@app.get("/api/booking/<booking_id>/status")
+def booking_status(booking_id):
+
+    booking = bookings.get(booking_id)
+
+    if not booking:
+        return jsonify({
+            "status": "not_found"
+        }), 404
+
+    return jsonify({
+        "status": booking["status"]
+    })
+
+
+# Telegram tugmalari
 @app.post("/telegram/webhook")
 def telegram_webhook():
+
     update = request.get_json(silent=True) or {}
 
     cq = update.get("callback_query")
 
-    if cq:
-        action = cq.get("data")
+    if not cq:
+        return jsonify({"ok": True})
 
-        if action == "approve_demo":
-            answer = "Bron tasdiqlandi ✅"
-        elif action == "reject_demo":
-            answer = "Bron rad etildi ❌"
-        else:
-            answer = "Qabul qilindi"
+    action = cq.get("data", "")
 
-        requests.post(
-            f"https://api.telegram.org/bot{BOT_TOKEN}/answerCallbackQuery",
-            json={
-                "callback_query_id": cq["id"],
-                "text": answer
-            },
-            timeout=10
-        )
+    if ":" not in action:
+        return jsonify({"ok": True})
 
+    command, booking_id = action.split(":", 1)
+
+    if booking_id not in bookings:
+        answer = "Bron topilmadi ❗"
+
+    elif command == "approve":
+        bookings[booking_id]["status"] = "approved"
+        answer = "Bron tasdiqlandi ✅"
+
+    elif command == "reject":
+        bookings[booking_id]["status"] = "rejected"
+        answer = "Bron rad etildi ❌"
+
+    else:
+        answer = "Noma'lum amal"
+
+    # Telegram tugmasiga javob
+    requests.post(
+        f"https://api.telegram.org/bot{BOT_TOKEN}/answerCallbackQuery",
+        json={
+            "callback_query_id": cq["id"],
+            "text": answer
+        },
+        timeout=10
+    )
+
+    # Telegramda ham statusni ko'rsatish
+    try:
         requests.post(
             f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
             json={
@@ -125,6 +180,8 @@ def telegram_webhook():
             },
             timeout=10
         )
+    except Exception:
+        pass
 
     return jsonify({"ok": True})
 
@@ -132,5 +189,6 @@ def telegram_webhook():
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
-        port=int(os.getenv("PORT", "5000"))
+        port=PORT,
+        debug=True
     )
