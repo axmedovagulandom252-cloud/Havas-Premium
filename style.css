@@ -34,7 +34,7 @@ a {
   align-items: center;
   gap: 30px;
   padding: 0 5%;
-  background: rgba(5, 5, 5, 0.88);
+  background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
 }
@@ -49,6 +49,11 @@ a {
   font-family: "Cormorant Garamond", serif;
   font-size: 38px;
   line-height: 1;
+  width: 70px;
+  height:70px;
+  background-image:url("logo.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .logo b,
 .logo small {
@@ -133,7 +138,7 @@ button,
   display: flex;
   align-items: center;
   gap: 40px;
-  background-image: url("../assets/hero.png");
+  background-image: url("havas rasm.jpg");
   background-size: cover;
   background-position: center;
 }
